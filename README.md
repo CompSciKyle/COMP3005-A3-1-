@@ -24,3 +24,6 @@
    ```bash
     ssh -N -L 5433:127.0.0.1:5432 student@<floating-ip>
 This command creates a secure SSH tunnel through port 22, allowing the Java application to connect to the PostgreSQL database on the VM through local port 5433, which forwards traffic to port 5432.
+
+### Video Link:
+[https://youtu.be/dNbiCVMd3e8]
