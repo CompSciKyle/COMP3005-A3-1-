@@ -1,4 +1,4 @@
-package app;
+package src.app;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,15 +17,16 @@ public class student_service{
             ResultSet rs = stmt.executeQuery(sql);
         ){
 
+            System.out.printf("%-5s %-15s %-15s %-30s %-15s%n","ID", "First Name", "Last Name", "Email", "Enrollment Date");
+            System.out.println("--------------------------------------------------------------------------");
             while(rs.next()){
                 int id = rs.getInt("student_id");
                 String first = rs.getString("first_name");
                 String last = rs.getString("last_name"); 
                 String email = rs.getString("email");
                 String date = rs.getString("enrollment_date");
-
-                System.out.printf(" Id: %d First Name: %s LastName: %s Email: %s Enrollment Date: %s", id, first, last, email, date );
-            }
+                
+                System.out.printf("%-5d %-15s %-15s %-30s %-15s%n", id, first, last, email, date);            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,16 +56,22 @@ public class student_service{
     }
     
     public static void updateStudentEmail(Integer student_id,String new_email){
-        String updateSQL = "UPDATE students SET email =" + new_email + "WHERE student_id = " + student_id;
+        String sql = "UPDATE students SET email = ? WHERE student_id = ?";
 
         try (
             Connection conn = PostgresSQLDBConnection.getConnection();
-            Statement stmt = conn.createStatement();
-        ){
-            stmt.executeUpdate(updateSQL);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, new_email);
+            pstmt.setInt(2, student_id);
 
-            System.out.printf("Update was successful");
-        
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Email updated successfully!");
+            } else {
+                System.out.println("Student not found.");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
