@@ -22,4 +22,4 @@
 3. Open a terminal and run:
 
    ```bash
-   ssh -N -L 5433:127.0.0@student<floating-ip>
+    ssh -N -L 5433:127.0.0.1:5432 student@<floating-ip>
