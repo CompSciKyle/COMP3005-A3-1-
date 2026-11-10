@@ -54,11 +54,38 @@ public class student_service{
         }
     }
     
-    public static void updateStudentEmail(student_id, new_email){
+    public static void updateStudentEmail(Integer student_id,String new_email){
+        String updateSQL = "UPDATE students SET email =" + new_email + "WHERE student_id = " + student_id;
+
+        try (
+            Connection conn = PostgresSQLDBConnection.getConnection();
+            Statement stmt = conn.createStatement();
+        ){
+            stmt.executeUpdate(updateSQL);
+
+            System.out.printf("Update was successful");
         
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
-    public static void deleteStudent(student_id){
+    public static void deleteStudent(Integer student_id){
+        String deleteSQL = "DELETE FROM students WHERE student_id = " + student_id;
+
+        try (
+            Connection conn = PostgresSQLDBConnection.getConnection();
+            Statement stmt = conn.createStatement();
+        ){
+            stmt.executeUpdate(deleteSQL);
+
+            System.out.printf("Delete was successful");
         
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
